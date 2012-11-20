@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib import admin
 
 class Experiment(models.Model):
     experiment_code = models.CharField(max_length=64, blank=True, null=True)
@@ -19,3 +20,5 @@ class Experiment(models.Model):
         if self.logins > 0:
             pct = (self.logins)/float(self.pageviews) * 100
         return '%2.1f' % pct
+
+admin.site.register(Experiment)

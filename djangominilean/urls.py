@@ -5,7 +5,7 @@ from django.conf.urls import patterns, include, url
 # admin.autodiscover()
 
 urlpatterns = patterns('djangominilean.views',
-    url(r'^$', 'home', name='home_link'),
+    url(r'^$', 'home'),
     (r'^reset/?$', 'reset'),
     (r'^fbshare/(?P<code>[^/]+)/?$', 'fbshare'),
 # Examples:
