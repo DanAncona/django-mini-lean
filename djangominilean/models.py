@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib import admin
 
 class Experiment(models.Model):
-    experiment_code = models.CharField(max_length=64, blank=True, null=True)
+    code = models.CharField(max_length=64, blank=True, null=True)
     variant = models.CharField(max_length=64, blank=True, null=True)
     fbposts = models.IntegerField(default=0, null=True, blank=True)
     pageviews = models.IntegerField(default=0, null=True, blank=True)
