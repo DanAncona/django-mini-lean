@@ -33,12 +33,6 @@ def home(request):
     graph = None
     fb_user = None
 
-########
-###
-#     createexperimentrows()
-###
-########
-
     # if there's a testing code in the link, get it, drop it into the session and redirect
     # so no one shares the link w/ get foo appended
     code = None

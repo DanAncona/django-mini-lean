@@ -11,7 +11,8 @@ MANAGERS = ADMINS
 
 import dj_database_url
 import os
-# local: add export RUNTIME_ENV='local' to venv/bin/activate
+# local: add this to venv/bin/activate
+# export RUNTIME_ENV='local'
 # heroku: 
 RUNTIME_ENV = os.environ['RUNTIME_ENV']
 DATABASES = {}
