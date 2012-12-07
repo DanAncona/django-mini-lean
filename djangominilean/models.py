@@ -21,4 +21,7 @@ class Experiment(models.Model):
             pct = (self.logins)/float(self.pageviews) * 100
         return '%2.1f' % pct
 
-admin.site.register(Experiment)
+class ExperimentAdmin(admin.ModelAdmin):
+    list_display = ['code', 'variant', 'fbposts', 'pctfbtopage', 'pageviews', 'pctpagetologin', 'shares']
+
+admin.site.register(Experiment, ExperimentAdmin)

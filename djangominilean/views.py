@@ -4,24 +4,27 @@ from random import choice, randrange
 
 from djangominilean.models import Experiment
 
-EXP1 = {
-          'code': 'test1',
-          'titles':
-          {
+EXPERIMENTS = \
+    {
+        'test1':
+        {
+            'titles':
+            {
             'The most interesting thing on the internet!',
             'The least interesting thing on the internet!'
-          },
-          'descriptions': 
-          {
+            },
+            'descriptions': 
+            {
             'This is a cow. Curious? Click the button.',
             'This is a cow. Click the button to share.'
-          },
-          'images': 
-          {
+            },
+            'images': 
+            {
             'cow1.png',
             'cow2.png'
-          },
-       }
+            }
+        }
+    }
 
 def home(request):
     nums = {}
@@ -82,22 +85,22 @@ def home(request):
 
 def loadexperiment(request):
     status = None
-    exp = EXP1
+    code = 'test1'
+    exp = EXPERIMENTS[code]
     # don't create the experiment if it's already in the db
-    try:
-        existing_experiment = Experiment.objects.get(code=exp['code'])
-    except:
-        status = "found experiment ", exp['code'], "- not created."
+    existing_experiments = Experiment.objects.filter(code=code)
+    if len(existing_experiments) > 0:
+        status = "found experiment ", code, "- not created."
         return HttpResponse(status)
-
+        
     # if it's not found, create rows in Experiment for each variant
     numvariants = len(exp['titles'])
     for i in range(0, numvariants):
         for j in range(0, numvariants):
             variant = str.join('.', [str(i), str(j)])
-            newexp = Experiment(excode=EXPERIMENT, variant=variant)
+            newexp = Experiment(code=code, variant=variant)
             newexp.save()
-    status = "experiment", exp['code'], "loaded"
+    status = "experiment ", code, " loaded"
     # then generate all the posts to FB
     return HttpResponse(status)
 
