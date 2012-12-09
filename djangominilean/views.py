@@ -1,51 +1,47 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
+
 from random import choice, randrange
 
 from djangominilean.models import Experiment
 
+CURRENT_EXPERIMENT_CODE = 'test1'
+
+# make sure the titles, descriptions & images arrays have the same number of elements!
 EXPERIMENTS = \
     {
         'test1':
         {
             'titles':
-            {
-            'The most interesting thing on the internet!',
-            'The least interesting thing on the internet!'
-            },
+            [
+                'The most interesting thing on the internet!',
+                'The least interesting thing on the internet!'
+            ],
             'descriptions': 
-            {
-            'This is a cow. Curious? Click the button.',
-            'This is a cow. Click the button to share.'
-            },
+            [
+                'This is a cow. Curious? Click the button.',
+                'This is a cow. Click the button to share.'
+            ],
             'images': 
-            {
-            'cow1.png',
-            'cow2.png'
-            }
+            [
+                'cow1.png',
+                'cow2.png'
+            ]
         }
     }
 
 def home(request):
-    nums = {}
-    head = None
-    subhead = None
-    msg = None
-    ideology = None
-    img = None
-    graph = None
-    fb_user = None
-
     # if there's a testing code in the link, get it, drop it into the session and redirect
     # so no one shares the link w/ get foo appended
     code = None
     try:
         code = request.GET['code']
         request.session['code'] = code
-        print 'friendstest: code in GET, redirecting'
-        return HttpResponseRedirect('/friends')
+        print 'home: code in GET, redirecting'
+        return HttpResponseRedirect('/')
     except:
-        print 'friendstest: no test code in session or GET'
+        print 'home: no test code in session or GET'
 
     # if not in the GET, try the session...
     if code is None:
@@ -55,32 +51,35 @@ def home(request):
         except:
             print "friendstest: code not in session"
 
-    # if there's no testing code in the link or in the session, make up a new random code & save it in the session
+    # if there's no testing code in the link or in the session,
+    # make up a new random code & save it in the session
+    exp = EXPERIMENTS[CURRENT_EXPERIMENT_CODE]
+    print code
     if code is None:
-        isubhead = randrange(0, len(DESCS))
-        iimage = randrange(0, len(IMAGES))
-        #testcode = str(ihead) + str(isubhead) + str(imsg) + str(iideo) + str(iimage)
-        code = EXPERIMENT + '-' + str.join('.', [str(isubhead), str(iimage)])
+        images = exp['images']
+        titles = exp['titles']
+        itext = randrange(0, len(titles))
+        iimage = randrange(0, len(images))
+        excode = CURRENT_EXPERIMENT_CODE
+        variant = str.join('.', [str(itext), str(iimage)])
+        code = excode + '-' + variant
         request.session['code'] = code
-        
-#         head = heads[ihead]
-#         subhead = subheads[isubhead]
-#         msg = msgs[imsg]
-#         img = images[iimage]
-#         icon = icons[iimage]
+    else:
+        [excode, variant] = code.split('-')
+        variants = variant.split('.')
+        itext = int(variants[0])
+        iimage = int(variants[1])
 
-    [excode, variant] = code.split('-')
-    variants = variant.split('.')
-    vcopy = int(variants[0])
-    vimage = int(variants[1])
+    title = exp['titles'][itext]
+    description = exp['descriptions'][itext]
+    img = exp['images'][iimage]
+    print title, description, img
     
-    subhead = DESCS[vcopy]
-    img = IMAGES[vimage]
-    exp = Experiment.objects.get(experiment_code=excode, variant=variant)
+    exp = Experiment.objects.get(code=CURRENT_EXPERIMENT_CODE, variant=variant)
     exp.pageviews += 1
     exp.save()
 
-    return render_to_response('home.html', {'head': head, 'subhead': subhead, 'msg': msg, 'img': img, 'code': code},
+    return render_to_response('home.html', {'title': title, 'description': description, 'img': img, 'code': code},
             context_instance=RequestContext(request))
 
 def loadexperiment(request):
@@ -117,4 +116,5 @@ def fbshare(request, code):
     return HttpResponse(json, mimetype='application/json')
 
 def reset(request):
-    return
+    request.session['code'] = None
+    return HttpResponseRedirect('/')
