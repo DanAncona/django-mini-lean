@@ -13,8 +13,12 @@ import dj_database_url
 import os
 # local: add this to venv/bin/activate
 # export RUNTIME_ENV='local'
-# heroku: 
-RUNTIME_ENV = os.environ['RUNTIME_ENV']
+# heroku:
+try:
+	RUNTIME_ENV = os.environ['RUNTIME_ENV']
+except:
+	RUNTIME_ENV = 'elsewhere'
+	
 DATABASES = {}
 if RUNTIME_ENV == 'local':
     DATABASES = {
