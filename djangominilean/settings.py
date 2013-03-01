@@ -9,7 +9,6 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-import dj_database_url
 import os
 # local: add this to venv/bin/activate
 # export RUNTIME_ENV='local'
@@ -18,17 +17,17 @@ try:
 	RUNTIME_ENV = os.environ['RUNTIME_ENV']
 except:
 	RUNTIME_ENV = 'elsewhere'
-	
-DATABASES = {}
-if RUNTIME_ENV == 'local':
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/Users/da/dev/django-mini-lean/testy.db',
-        }
-    }
-else:
-    DATABASES['default'] = dj_database_url.config()
+
+#DATABASES = {}
+# if RUNTIME_ENV == 'local':
+#     DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': '/Users/da/dev/django-mini-lean/testy.db',
+#         }
+#     }
+# else:
+#DATABASES = {'default': dj_database_url.config(default='postgres://foo:bar@localhost:5432/db')}
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -122,7 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+#    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'djangominilean',
@@ -160,3 +159,12 @@ LOGGING = {
         },
     }
 }
+
+
+# Parse database configuration from $DATABASE_URL
+import dj_database_url
+DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
+print DATABASES
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

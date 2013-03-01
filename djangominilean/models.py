@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib import admin
+from django.contrib.auth.models import User
 
 class Experiment(models.Model):
     code = models.CharField(max_length=64, blank=True, null=True)
