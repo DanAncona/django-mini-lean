@@ -32,6 +32,7 @@ EXPERIMENTS = \
         }
     }
 
+# the randomization happens in the template, so the share text matches but when a new page is created it's random
 def home(request):
     # if there's a testing code in the link, get it, drop it into the session and redirect
     # so no one shares the link w/ get foo appended
@@ -44,7 +45,7 @@ def home(request):
     except:
         print 'home: no test code in session or GET'
 
-    # if not in the GET, try the session...
+    # If the code isn't in the query string, try the session...
     if code is None:
         try:
             code = request.session['code']
