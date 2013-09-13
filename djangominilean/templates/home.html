@@ -12,6 +12,7 @@
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.validate.min.js"></script>    
   -->
   <meta property="fb:app_id" content="110354265721605" /> 
+  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 </head>
 
 {% block headscript %}
@@ -150,7 +151,7 @@ td {font-size: 12px; padding-top:3px; padding-left: 7px; padding-right: 7px; fon
     <img src="/static/{{img}}">
     
     <br/>
-    <a href="#" class="button">share</a>
+    <a href="#" class="button" onclick="fb_publish();">share</a>
 
     <br/>
     <a href="/reset">reset n' randomize</a><br/><br/>

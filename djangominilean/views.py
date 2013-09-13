@@ -8,7 +8,8 @@ from djangominilean.models import Experiment
 
 CURRENT_EXPERIMENT_CODE = 'test1'
 
-# make sure the titles, descriptions & images arrays have the same number of elements!
+# Make sure the titles, descriptions & images arrays have the same number of elements!
+# TODO: add checking for this. (and models/admin for it)
 EXPERIMENTS = \
     {
         'test1':
