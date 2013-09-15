@@ -9,7 +9,7 @@ Despite having lead The Lean Startup halfway through the development process and
 
 It was REALLY fun and interesting to build. It was a little complicated to be something that would take off on it's own, but we thought it had a shot at least. To improve those odds we wanted to split test the content and how we described it. We quickly evaluated the various django split testing frameworks out there as well as external tools like Optimizely. For various different reasons, none of them quite fit the bill, so I whipped a quick version of this up in a couple of days.
 
-DemDash folded in October 2012. Probably permanently, although the $5B political communications market remains tantalizingly in horrible need of massive disruption. But I'd always thought this would be a nice thing to release as open source. Think of it as the daisies growing out of DemDash's tombstone. (and who knows, maybe someday Zombie DemDash will rise again)
+DemDash folded in October 2012. Probably permanently, although the $5B political communications market remains tantalizingly in dire need of massive disruption. But I'd always thought this would be a nice thing to release as open source. Think of it as the daisies growing out of DemDash's tombstone. (and who knows, maybe someday Zombie DemDash will rise again)
 
 One note: this is neither a python module nor a django package; it's more of a demo of a technique. This is deliberate, since it seems like everyone needs A/B testing to do something slightly different. But if anyone has ideas about how to better package it, I'd certainly be open to hearing them.
 
@@ -39,4 +39,11 @@ tidy everything up
 
 Move tests out of the view and into the model
 
-Possibly, to be packaged up as a 
+Possibly, to be packaged up as a module
+
+To run:
+
+Clone repo
+register an app https://developers.facebook.com/apps
+plug the FB secret and app ID into environment variables (make your life easier, put it in your virtual env bin/activate script)
+
