@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
+from django.conf import settings
 
 from random import choice, randrange
 
@@ -16,13 +17,13 @@ EXPERIMENTS = \
         {
             'titles':
             [
-                'The most interesting thing on the internet!',
-                'The least interesting thing on the internet!'
+                'Welcome to django mini lean',
+                'Split Testing Made Easy, for Django'
             ],
             'descriptions': 
             [
-                'This is a cow. Curious? Click the button.',
-                'This is a cow. Click the button to share.'
+                'Django mini lean is an example of how to easily do split testing.',
+                'This is an example of how to very easily do split testing in the django web framework.'
             ],
             'images': 
             [
@@ -81,7 +82,9 @@ def home(request):
     exp.pageviews += 1
     exp.save()
 
-    return render_to_response('home.html', {'title': title, 'description': description, 'img': img, 'code': code},
+    return render_to_response('home.html',
+            {'title': title, 'description': description, 'img': img, 'code': code,
+             'FB_APPID': settings.FB_APPID, 'FB_SECRET': settings.FB_SECRET},
             context_instance=RequestContext(request))
 
 def loadexperiment(request):

@@ -11,7 +11,7 @@
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.ghosttext.js"></script>  
   <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.validate.min.js"></script>    
   -->
-  <meta property="fb:app_id" content="110354265721605" /> 
+  <meta property="fb:app_id" content="{{FB_APPID}}" /> 
   <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
 </head>
 
@@ -49,7 +49,7 @@ $.ajaxSetup({
 
 window.fbAsyncInit = function() {
   FB.init({
-    appId      : '{{FACEBOOK_APP_ID}}',
+    appId      : '{{FB_APPID}}',
     status     : true,
     logging    : true,
     cookie     : true,
@@ -70,18 +70,21 @@ function fb_publish() {
     console.log(v0, v1);
     msgpart1 = '{{request.user.get_profile.fname}} is {{nums.pct|floatformat:'0'}}% {{nums.ideology}} and {{nums.total|floatformat:'0'}}% political overall. ';
     msgs = Array('Curious to see how political your Facebook feed is?', 'Curious to see how your friends are connected?')
-    images = Array("friendstest-d3.png", "friendstest-nodexl.png")
+    images = Array("cow1.png", "cow2.png")
     msg = msgpart1 + msgs[v0]
     img = images[v1]
     code = 'friends1-' + v0 + '.' + v1;
+    url = window.location.host;
+    picurl = url + '/static/' + img, 
+    console.log(url, picurl);
     FB.ui(
     {
         method: 'stream.publish',
 /*         description: '{{subhead}}', */
         description: msg,
-        picture: 'http://demdash.us{{ MEDIA_URL }}img/' + img, 
-        name: 'Democracy with Friends',
-        link: 'http://demdash.us/friends?code=' + code,
+        picture: picurl, 
+        name: 'Django Mini Lean',
+        link: url + '?code=' + code,
 /*
         action_links: [
             { text: 'Code', href: 'http://demdash.us/friends/' }
@@ -105,6 +108,54 @@ function fb_publish() {
 
 
 <style type="text/css">
+
+
+      button, button[type] {
+        background-image: linear-gradient(#206db0 0%,#185386 100%);
+        background-color: #206DB0;
+        border: none;
+        -webkit-border-radius: 22px;
+        -moz-border-radius: 22px;
+        border-radius: 22px;
+        -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        box-shadow: 0 1px 0 rgba(0,0,0,0.3);
+        color: #fff;
+        cursor: pointer;
+        font-size: 1.2em;
+        font-family: Brown-Medium,Verdana,Helvetica,Arial,sans-serif;
+        padding: 8px 25px 8px;
+        text-shadow: -2px -1px 0 #144e7b;
+        line-height: 1.1em;
+      }
+
+      button:hover, a.button:hover {
+        border: 1px solid #c2e1ef;
+        color: white;
+        background-color: green;
+      }
+
+      input[type=text], input[type=url], select, textarea {
+        display: inline-block;
+        -o-border-radius: 22px;
+        -moz-border-radius: 22px;
+        -webkit-border-radius: 22px;
+        border-radius: 22px;
+        outline: 0;
+        -moz-box-shadow: inset 0px 4px 8px #ddd;
+        -webkit-box-shadow: inset 0px 4px 8px #ddd;
+        box-shadow: inset 0px 4px 8px #ddd;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        padding: 6px 6px 6px 1em;
+        height: 35px;
+        min-height: 1em;
+        background-color: #fff;
+        font-family: "Brown-Light","Lucida Grande",Helvetica Neue,Arial;
+        font-size: 16px;
+      }
+
+
 .home-big {font-size: 20px; font-weight: bold; font-family: arial;}
 td {font-size: 12px; padding-top:3px; padding-left: 7px; padding-right: 7px; font-family: arial;}
 .button {
