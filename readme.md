@@ -41,9 +41,12 @@ Move tests out of the view and into the model
 
 Possibly, to be packaged up as a module
 
+Better reporting, including statistical significance analysis
+
 To run:
 
 Clone repo
 register an app https://developers.facebook.com/apps
 plug the FB secret and app ID into environment variables (make your life easier, put it in your virtual env bin/activate script)
+don't forge to add any test users as developers in the app, otherwise you will get a hopelessly generic error from FB when you try the sharing
 

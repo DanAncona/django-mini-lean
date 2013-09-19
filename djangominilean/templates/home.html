@@ -47,50 +47,29 @@ $.ajaxSetup({
      } 
 });
 
-window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '{{FB_APPID}}',
-    status     : true,
-    logging    : true,
-    cookie     : true,
-    xfbml      : true,
-    oauth      : true,
-  });
-};
-(function(d){
-   var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
-   js = d.createElement('script'); js.id = id; js.async = true;
-   js.src = "//connect.facebook.net/en_US/all.js";
-   d.getElementsByTagName('head')[0].appendChild(js);
- }(document));
-
 function fb_publish() {
     v0 = Math.floor(Math.random()*2);
     v1 = Math.floor(Math.random()*2);
     console.log(v0, v1);
-    msgpart1 = '{{request.user.get_profile.fname}} is {{nums.pct|floatformat:'0'}}% {{nums.ideology}} and {{nums.total|floatformat:'0'}}% political overall. ';
     msgs = Array('Curious to see how political your Facebook feed is?', 'Curious to see how your friends are connected?')
     images = Array("cow1.png", "cow2.png")
-    msg = msgpart1 + msgs[v0]
+    msg = msgs[v0]
     img = images[v1]
     code = 'friends1-' + v0 + '.' + v1;
     url = window.location.host;
-    picurl = url + '/static/' + img, 
+    // Looks like FB (sensibly) disallows a local image in the share box, so hard coding this url.
+    picurl = 'http://django-mini-lean.herokuapp.com/static/' + img;
+    
     console.log(url, picurl);
     FB.ui(
     {
         method: 'stream.publish',
-/*         description: '{{subhead}}', */
-        description: msg,
-        picture: picurl, 
-        name: 'Django Mini Lean',
+        description: '{{description}}',
+        picture: picurl,
+        name: '{{title}}',
         link: url + '?code=' + code,
-/*
-        action_links: [
-            { text: 'Code', href: 'http://demdash.us/friends/' }
-        ],
-        user_prompt_message: 'Personal message here'
-*/
+        //action_links: [ { text: 'Code', href: 'http://demdash.us/friends/' } ],
+        //user_prompt_message: 'Personal message here'
         },
         function(response) {
             if (response && response.post_id) {
@@ -191,9 +170,32 @@ td {font-size: 12px; padding-top:3px; padding-left: 7px; padding-right: 7px; fon
 </style>
 
 {% endblock %}
+<body>
+<div id="fb-root"></div>
+<script type="text/javascript">
+  window.fbAsyncInit = function() {
+    // init the FB JS SDK
+    FB.init({
+      appId      : '{{FB_APPID}}',                        // App ID from the app dashboard
+      //channelUrl : '//WWW.YOUR_DOMAIN.COM/channel.html', // Channel file for x-domain comms
+      status     : true,                                 // Check Facebook Login status
+      xfbml      : true                                  // Look for social plugins on the page
+    });
+
+    // Additional initialization code such as adding Event Listeners goes here
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/all.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+</script>
 
 {% block content %}
-
 <div style="text-align: center; margin-left: auto; margin-right: auto; width: 700px; height: 80px;">
 
     <div class="home-big">{{title}}</div>
@@ -202,7 +204,7 @@ td {font-size: 12px; padding-top:3px; padding-left: 7px; padding-right: 7px; fon
     <img src="/static/{{img}}">
     
     <br/>
-    <a href="#" class="button" onclick="fb_publish();">share</a>
+    <a class="button" onclick="fb_publish();">share</a>
 
     <br/>
     <a href="/reset">reset n' randomize</a><br/><br/>

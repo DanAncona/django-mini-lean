@@ -17,12 +17,12 @@ EXPERIMENTS = \
         {
             'titles':
             [
-                'Welcome to django mini lean',
+                'Welcome to Django Mini Lean',
                 'Split Testing Made Easy, for Django'
             ],
             'descriptions': 
             [
-                'Django mini lean is an example of how to easily do split testing.',
+                'Django mini lean is an open source example of how to easily do split testing.',
                 'This is an example of how to very easily do split testing in the django web framework.'
             ],
             'images': 
