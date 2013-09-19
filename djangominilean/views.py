@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.template import Context, loader, RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
+from django.utils import simplejson
 
 from random import choice, randrange
 
@@ -18,12 +19,12 @@ EXPERIMENTS = \
             'titles':
             [
                 'Welcome to Django Mini Lean',
-                'Split Testing Made Easy, for Django'
+                'Try Django Mini Lean'
             ],
             'descriptions': 
             [
-                'Django mini lean is an open source example of how to easily do split testing.',
-                'This is an example of how to very easily do split testing in the django web framework.'
+                'Django Mini Lean is an open source example of how to easily do split testing.',
+                'Want an easy way to do split testing in the django web framework? Give this open source demo a whirl!'
             ],
             'images': 
             [
@@ -61,10 +62,12 @@ def home(request):
     if code is None:
         images = exp['images']
         titles = exp['titles']
+        descriptions = exp['descriptions']
         itext = randrange(0, len(titles))
         iimage = randrange(0, len(images))
+        idesc = randrange(0, len(descriptions))
         excode = CURRENT_EXPERIMENT_CODE
-        variant = str.join('.', [str(itext), str(iimage)])
+        variant = str.join('.', [str(itext), str(iimage), str(idesc)])
         code = excode + '-' + variant
         request.session['code'] = code
     else:
@@ -72,9 +75,10 @@ def home(request):
         variants = variant.split('.')
         itext = int(variants[0])
         iimage = int(variants[1])
+        idesc = int(variants[2])
 
     title = exp['titles'][itext]
-    description = exp['descriptions'][itext]
+    description = exp['descriptions'][idesc]
     img = exp['images'][iimage]
     print title, description, img
     
@@ -91,27 +95,29 @@ def loadexperiment(request):
     status = None
     code = 'test1'
     exp = EXPERIMENTS[code]
-    # don't create the experiment if it's already in the db
+    # Don't create the experiment if it's already in the db.
     existing_experiments = Experiment.objects.filter(code=code)
     if len(existing_experiments) > 0:
         status = "found experiment ", code, "- not created."
         return HttpResponse(status)
         
-    # if it's not found, create rows in Experiment for each variant
+    # If it's not found, create rows in Experiment for each variant.
     numvariants = len(exp['titles'])
     for i in range(0, numvariants):
         for j in range(0, numvariants):
-            variant = str.join('.', [str(i), str(j)])
-            newexp = Experiment(code=code, variant=variant)
-            newexp.save()
+        	for k in range(0, numvariants):
+	            variant = str.join('.', [str(i), str(j), str(k)])
+	            newexp = Experiment(code=code, variant=variant)
+	            newexp.save()
     status = "experiment ", code, " loaded"
-    # then generate all the posts to FB
+    
+    # Then generate all the posts to FB
     return HttpResponse(status)
 
 def fbshare(request, code):
     success = False
     [excode, variant] = code.split('-')
-    exp = Experiment.objects.get(excode=excode, variant=variant)
+    exp = Experiment.objects.get(code=excode, variant=variant)
     exp.shares += 1
     exp.save()
     success = True
