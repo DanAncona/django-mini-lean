@@ -117,10 +117,20 @@ function fb_publish() {
         background-color: green;
       }
 	
-	.home-big {font-size: 20px; font-weight: bold; font-family: arial; padding: 10px;}
-	.home-lessbig {font-size: 16px; font-family: arial; margin: 10px;}
-	.home-smaller {font-size: 12px; font-family: arial; margin: 20px;}
-	img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,0.3);}
+	.home-big {font-size: 60px; font-weight: bold; color: #fff; text-shadow: 3px 3px 2px #444444; opacity: 0.88; font-family: arial; padding: 10px;}
+	.home-lessbig {font-size: 16px; font-family: arial; margin: 10px; color: #fff; text-shadow: 1px 1px 1px #444444; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;}
+	.home-smaller {font-size: 12px; font-family: arial; margin: 20px; color: #fff; text-shadow: 1px 1px 1px #444444; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;}
+	#img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,0.3);}
+
+.fullscreen_post_bg {
+position: fixed;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+background-size: cover;
+background-position: 50% 50%;
+}
 
 	td {font-size: 12px; padding-top:13px; padding-left: 7px; padding-right: 7px; font-family: arial;}
 </style>
@@ -149,7 +159,10 @@ function fb_publish() {
 </script>
 
 {% block content %}
-<div style="text-align: center; margin-left: auto; margin-right: auto; width: 500px; height: 80px;">
+<div style="text-align: center; margin-left: auto; margin-right: auto; width: 300px; height: 80px;">
+
+<div id="fullscreen_post_bg" class="fullscreen_post_bg"
+style="background-image:url('http://farm8.staticflickr.com/7246/7679033786_ebab85e65c_o.jpg');">
 
     <div class="home-big">{{title}}</div>
     <div class="home-lessbig">{{description}}<br/><br/>Please enjoy this cow, and click share to expand justice.</div>
@@ -169,7 +182,7 @@ function fb_publish() {
     Built by Dan Ancona. Looking for help building stuff or getting people excited? That's what I do. Drop me an email at da [at] simplerevolutions.com.
     </div>
 </div>
-
+</div>
 
 {% endblock %}
 
