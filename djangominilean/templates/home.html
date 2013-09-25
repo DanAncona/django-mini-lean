@@ -111,18 +111,23 @@ function fb_publish() {
         margin-top: 30px;
       }
 
-      abutton:hover, a.button:hover {
+      a.button:hover, a.button:hover {
         border: 1px solid #c2e1ef;
         color: white;
         background-color: green;
       }
+      
+    a { color: #CC3333; }
+    a:visited { color: #AA5555; } 
 	
-	.home-big {font-size: 60px; font-weight: bold; color: #fff; text-shadow: 3px 3px 2px #444444; opacity: 0.88; font-family: arial; padding: 10px;}
-	.home-lessbig {font-size: 16px; font-family: arial; margin: 10px; color: #fff; text-shadow: 1px 1px 1px #444444; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;}
-	.home-smaller {font-size: 12px; font-family: arial; margin: 20px; color: #fff; text-shadow: 1px 1px 1px #444444; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;}
-	#img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,0.3);}
+	.home {width: 400px; text-align: center; margin-left: auto; margin-right: auto; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif; color: #fff}
+	.home .big {font-size: 60px; font-weight: bold; color: #fff; text-shadow: 3px 3px 2px #444444; opacity: 0.88; padding: 10px;}
+	.home .lessbig {font-size: 18px; text-shadow: 2px 2px 2px #444444;}
+	.home .smaller {font-size: 15px; text-shadow: 1px 1px 1px #444444; margin-top: 20px;}
+	.home .tiny {font-size: 12px; margin-top: 10px;}
+	#img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,1.0);}
 
-.fullscreen_post_bg {
+.fullscreen_bg {
 position: fixed;
 top: 0;
 right: 0;
@@ -132,7 +137,6 @@ background-size: cover;
 background-position: 50% 50%;
 }
 
-	td {font-size: 12px; padding-top:13px; padding-left: 7px; padding-right: 7px; font-family: arial;}
 </style>
 
 {% endblock %}
@@ -159,28 +163,34 @@ background-position: 50% 50%;
 </script>
 
 {% block content %}
-<div style="text-align: center; margin-left: auto; margin-right: auto; width: 300px; height: 80px;">
+<div class="home">
 
-<div id="fullscreen_post_bg" class="fullscreen_post_bg"
-style="background-image:url('http://farm8.staticflickr.com/7246/7679033786_ebab85e65c_o.jpg');">
+<div id="fullscreen_post_bg" class="fullscreen_bg"
+style="background-image:url('http://farm9.staticflickr.com/8291/7633576956_d6a45814d3_k.jpg');">
 
-    <div class="home-big">{{title}}</div>
-    <div class="home-lessbig">{{description}}<br/><br/>Please enjoy this cow, and click share to expand justice.</div>
+    <div class="big">{{title}}</div>
+    <div class="home lessbig">{{description}}<br/><br/>Please enjoy this cow, and click share to expand justice.</div>
     
-    <img src="/static/{{img}}">
+    <img id="img" src="/static/{{img}}">
     
     <br/>
     
     <a class="button" onclick="fb_publish();">share</a>
 
     <br/>
-    <div class="home-smaller">
-    You can <a href="/reset">reset n' randomize</a> to see all the experiment variants.
-    Log into the <a href="/admin">admin</a> (user: cow, password: moo) to see the results, and
-    see the <a href="https://github.com/DanAncona/django-mini-lean">github</a> page for details.
+    <div class="home smaller">
+    You can <a href="/reset">reset n' randomize</a> to see the experimental variantions.
+    Log into the <a href="/admin">admin</a> (user: cow, password: moo) to see the results. If you have a website, are familiar with the Django web framework
+    (or would like to be) --
+    and you like winning -- Django Mini Lean may be the right solution for you! Please see the <a href="https://github.com/DanAncona/django-mini-lean">github page</a> for more details.
     <br/><br/>
     Built by Dan Ancona. Looking for help building stuff or getting people excited? That's what I do. Drop me an email at da [at] simplerevolutions.com.
     </div>
+    
+    <div class="home tiny">
+    Photo credit: <a href="http://www.flickr.com/photos/afightingfaith/7633576956/">me</a>. Kid credit: Marco.
+    </div>
+    
 </div>
 </div>
 
