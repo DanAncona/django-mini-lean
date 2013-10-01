@@ -38,11 +38,6 @@ EXPERIMENTS = \
             [
                 'cow1.png',
                 'cow2.png'
-            ],
-            'cowtext':
-            [
-                'Please, enjoy this cow, and click the button below to share this on Facebook.',
-                'Please click the button below to share this on Facebook.'
             ]
         }
     }
@@ -92,8 +87,15 @@ def home(request):
     # Now we definitely have our variant code, so build out the dictionary to hand off to the template.
     variant_details = build_variant(variant_code_with_exp)
 
-    # And increment the pageviews for this variant.
-    exp = Experiment.objects.get(code=CURRENT_EXPERIMENT, variant=variant_code)
+    # If we can't find the variant the experiment has mostly likely changed, so smash the cookie and try again.
+    # TODO: add smarter error checking, and possibly versioning of experiments, here.
+    try:
+        exp = Experiment.objects.get(code=CURRENT_EXPERIMENT, variant=variant_code)
+    except Experiment.DoesNotExist:
+        request.session['code'] = None
+        return HttpResponseRedirect('/')
+
+    # And increment the pageviews counter for this experiment.
     exp.pageviews += 1
     exp.save()
 

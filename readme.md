@@ -3,9 +3,9 @@ Welcome to Django Mini Lean!
 
 Summary
 -------
-World's absolute most minimal django based lean split testing (sometimes called A/B testing) framework. This is pretty nerdy stuff: Django is a web framework that people use to build custom websites. Django is easy and fun to learn and use, but you definitely need programming skills. If you've already got a site using a different framework or CMS, Django Mini Lean probably isn't so helpful for you. There's lots of other tools you could try first, Optimizely https://www.optimizely.com/ and new Google Analytics Content Experiments https://support.google.com/analytics/answer/1745152?hl=en.
+Django Mini Lean is a farily minimal, django-based lean split testing (sometimes called A/B testing) framework. This is pretty nerdy stuff: Django is a web framework that people use to build custom websites. Django is easy and fun to learn and use, but you definitely need programming skills. If you've already got a site using a different framework or CMS, Django Mini Lean probably isn't so helpful for you. There's lots of other tools you could try first, [Optimizely](https://www.optimizely.com/) and [Google Analytics Content Experiments](https://support.google.com/analytics/answer/1745152?hl=en).
 
-If you're curious about split testing in general, try this book: http://www.amazon.com/Testing-Most-Powerful-Clicks-Customers/dp/1118536096
+If you're curious about split testing in general, try [A/B Testing: The Most Powerful Way to Turn Clicks Into Customers](http://www.amazon.com/Testing-Most-Powerful-Clicks-Customers/dp/1118536096).
 
 Try it Out
 ----------
@@ -14,7 +14,7 @@ There's an instance of Django Mini Lean running on heroku, here:
 
 http://django-mini-lean.herokuapp.com/
 
-When you come to the page, one experimental variant is served, and if you reload that variant stays put via a cookie. If you click to reset, the cookie that saves the variant is smashed and it serves you a new one. Variants can be anything; in this demo, we're varying the headline text, the subhead text and the picture of the cow, but it'd be easy to modify it to test any sorts of variations you'd like. Then when someone clicks on a share, a version of the page with a different variant is displayed for the new user.
+When you come to the page, one experimental variant is served, and if you reload that variant stays put via a cookie. If you click to reset, the cookie that saves the variant is smashed and it serves you a new one. Variants can be anything; in this demo, we're varying the headline text, the subhead text, the text above the cow and the picture of the cow. It's easy to modify it to test any sorts of variations you'd like. When someone clicks on a share, a version of the page with a different variant is displayed for the new user.
 
 Background
 ----------
@@ -32,19 +32,13 @@ One note: this is neither a python module nor a django package; it's more of a d
 Future Plans
 ------------
 
-What it needs:
+Move tests out of the view and into a model
 
-tidy everything up
+Could possibly be packaged up as either a module, or as template processor.
 
-*** launch ***
+A nicer reporting page, showing the variants visually, would be lovely. I'd also like to get into including statistical significance analysis.
 
-[ ] Move tests out of the view and into a model
-
-[ ] Possibly, to be packaged up as a module
-
-[ ] A nicer reporting page, showing the variants visually, would be lovely. I'd also like to get into including statistical significance analysis.
-
-[ ] Funnel analysis isn't hard to add, in fact the deployed version of this did that to track logins created from the different variants. To implement this, just create another method like fbshare in the view and add the counter to the Experiment. Or you could add a funnel code to that method.
+Funnel analysis isn't hard to add. The deployed version of this did that to track logins created from the different variants. To implement this, just create another method like fbshare in the view and add the counter to the Experiment. Or you could add a funnel code to that method.
 
 
 To Run Django Mini Lean Yourself
