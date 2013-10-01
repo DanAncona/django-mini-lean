@@ -52,7 +52,8 @@ function fb_publish() {
             description: '{{variant_details.description}}',
             picture: picurl,
             name: '{{variant_details.title}}',
-            link: url + '?code={{code}}',
+            // Uncomment the following code to track variants through shares.
+            link: url, /* + '?code={{code}}',*/
         },
         // Catch the callback and make an ajax call to increment the sharing count for this variant.
         function(response) {

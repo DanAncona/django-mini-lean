@@ -101,7 +101,7 @@ def home(request):
 
     return render_to_response('home.html',
             {'variant_details': variant_details, 'code': variant_code_with_exp,
-             'FB_APPID': settings.FB_APPID, 'FB_SECRET': settings.FB_SECRET},
+             'FB_APPID': settings.FB_APPID},
             context_instance=RequestContext(request))
 
 # If the the rows for the Experiment aren't found in the db, calculate all the combinations

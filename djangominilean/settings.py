@@ -30,10 +30,8 @@ if RUNTIME_ENV == 'local':
     }
 else:
 	DATABASES = {'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))}
-print DATABASES
 
 FB_APPID = os.environ['FB_APPID']
-FB_SECRET = os.environ['FB_SECRET']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
