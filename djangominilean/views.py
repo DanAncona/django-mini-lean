@@ -18,8 +18,7 @@ CURRENT_EXPERIMENT = 'test1'
 
 # For the purposes of this demo, you can create the tests easily as a dict here. Note that the
 # initial label for each set of test variants should correspond to CURRENT_EXPERIMENT.
-# Make sure the titles, descriptions & images arrays have the same number of elements!
-# TODO: add checking for this.
+# Due to the nifty matrix calculation in loadexperiment, any of these can be of any length.
 EXPERIMENTS = \
     {
         'test1':
@@ -123,7 +122,7 @@ def loadexperiment(request):
             all_variants.append('%s:%i' % (element, variant_list.index(variant)))
             
     print all_variants
-        
+
     x = [ 0, 1 ]
     y = [ 0, 1, 2 ]
     z = [ 0, 1]
