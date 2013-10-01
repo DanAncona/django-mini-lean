@@ -64,6 +64,13 @@ function fb_publish() {
     }
     );  
 }
+
+$(document).ready(function(){
+    $("#curious").click(function() {
+      $("#popup").toggle( "slow");
+    });
+});
+
 </script>
 
 <style type="text/css">
@@ -74,6 +81,7 @@ function fb_publish() {
 	.home .smaller {font-size: 15px; text-shadow: 1px 1px 1px #444444; margin-top: 20px;}
 	.home .tiny {font-size: 12px; margin-top: 10px; text-shadow: 1px 1px 1px #444444;}
 	#img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,1.0);}
+	.home .weebox { background: #222; border: 1px dotted red; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;}
 
     a { color: #FF3333; }
     a:visited { color: #CCCCCC; } 
@@ -138,17 +146,26 @@ function fb_publish() {
 <div class="home">
     <div id="fullscreen_post_bg" class="fullscreen_bg"
     style="background-image:url('http://farm3.staticflickr.com/2809/9693900059_4743b3f5f1_k.jpg');">
-    
-        <div class="big">{{title}}</div>
-        <div class="home lessbig">{{description}}<br/><br/>Please enjoy this cow, and click share to expand justice.</div>
+
+        <div class="big">{{variant_details.title}}</div>
+        <div class="home lessbig">{{variant_details.description}}
+        <br/><br/>
+        {{variant_details.cowtext}}</div>
         
-        <img id="img" src="/static/{{img}}">
-        
+        <img id="img" src="/static/{{variant_details.img}}">        
         <br/>
-        
         <a class="button" onclick="fb_publish();">share</a>
-    
-        <br/>
+            
+        <div id="curious" class="home lessbig" style="margin-top: 20px; cursor: pointer;">Curious?</div>
+
+        <div class="home tiny">
+        Photo credit: <a href="http://www.flickr.com/photos/44124400268@N01/9693900059/">flickr: thelastminute</a>.<br/>
+        Cow credit: the amazing <a href="http://www.bogost.com/games/cow_clicker.shtml">Cow Clicker</a>.
+        </div>
+                
+    </div>
+
+    <div id="popup" class="home weebox">
         <div class="home smaller">
         You can <a href="/reset">reset n' randomize</a> to see the experimental variations.
         Log into the <a href="/admin">admin</a> (user: cow, password: moo) to see the results.
@@ -159,13 +176,8 @@ function fb_publish() {
         Built by Dan Ancona. Looking for an entreprenurial and experienced full stack engineer who loves talking to customers?
         That's what I do. Drop me an email at da [at] simplerevolutions [dot] com.
         </div>
-        
-        <div class="home tiny">
-        Photo credit: <a href="http://www.flickr.com/photos/44124400268@N01/9693900059/">flickr: thelastminute</a>.<br/>
-        Cow credit: the amazing <a href="http://www.bogost.com/games/cow_clicker.shtml">Cow Clicker</a>.
-        </div>
-        
     </div>
+
 </div>
 
 {% endblock %}
