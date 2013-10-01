@@ -76,12 +76,12 @@ $(document).ready(function(){
 <style type="text/css">
 	
 	.home {width: 400px; text-align: center; margin-left: auto; margin-right: auto; font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif; color: #fff; font-weight: bold;}
-	.home .big {font-size: 60px; font-weight: bold; color: #fff; text-shadow: 3px 3px 2px #444444; opacity: 0.88; padding: 10px;}
+	.home .big {width: 800px; margin-left: -200px; font-size: 50px; font-weight: bold; color: #fff; text-shadow: 3px 3px 2px #444444; opacity: 0.88; padding: 10px;}
 	.home .lessbig {font-size: 18px; text-shadow: 2px 2px 2px #444444;}
 	.home .smaller {font-size: 15px; text-shadow: 1px 1px 1px #444444; margin-top: 20px;}
 	.home .tiny {font-size: 12px; margin-top: 10px; text-shadow: 1px 1px 1px #444444;}
 	#img {margin: 20px; padding: 4px; box-shadow: 3px 3px 3px rgba(0,0,0,1.0);}
-	.home .weebox { background: #222; border: 1px dotted red; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;}
+	.home .weebox { margin-top: 20px; padding: 20px; background: #222; border: 1px dotted red; -webkit-border-radius: 12px; -moz-border-radius: 12px; border-radius: 12px;}
 
     a { color: #FF3333; }
     a:visited { color: #CCCCCC; } 
@@ -89,12 +89,14 @@ $(document).ready(function(){
 
     .fullscreen_bg {
         position: fixed;
+        background-attachment: fixed;
         top: 0;
         right: 0;
         bottom: 0;
         left: 0;
         background-size: cover;
         background-position: 50% 50%;
+        z-index: -1;
     }
 
     .button, button[type] {
@@ -143,11 +145,14 @@ $(document).ready(function(){
 </script>
 
 {% block content %}
-<div class="home">
-    <div id="fullscreen_post_bg" class="fullscreen_bg"
-    style="background-image:url('http://farm3.staticflickr.com/2809/9693900059_4743b3f5f1_k.jpg');">
 
-        <div class="big">{{variant_details.title}}</div>
+<div class="fullscreen_bg"
+style="background-image:url('http://farm3.staticflickr.com/2809/9693900059_4743b3f5f1_k.jpg');">
+</div>
+
+<div class="home">
+
+        <div class="home big">{{variant_details.title}}</div>
         <div class="home lessbig">{{variant_details.description}}
         <br/><br/>
         {{variant_details.cowtext}}</div>
@@ -156,27 +161,25 @@ $(document).ready(function(){
         <br/>
         <a class="button" onclick="fb_publish();">share</a>
             
-        <div id="curious" class="home lessbig" style="margin-top: 20px; cursor: pointer;">Curious?</div>
 
         <div class="home tiny">
         Photo credit: <a href="http://www.flickr.com/photos/44124400268@N01/9693900059/">flickr: thelastminute</a>.<br/>
         Cow credit: the amazing <a href="http://www.bogost.com/games/cow_clicker.shtml">Cow Clicker</a>.
         </div>
-                
-    </div>
 
-    <div id="popup" class="home weebox">
-        <div class="home smaller">
-        You can <a href="/reset">reset n' randomize</a> to see the experimental variations.
-        Log into the <a href="/admin">admin</a> (user: cow, password: moo) to see the results.
-        If you have a website, are familiar with the <a href="https://www.djangoproject.com/">Django web framework</a>
-        (or would like to be) -- and you like winning -- Django Mini Lean may be the right solution for you.
-        Please see the <a href="https://github.com/DanAncona/django-mini-lean">github page</a> for more details.
-        <br/><br/>
-        Built by Dan Ancona. Looking for an entreprenurial and experienced full stack engineer who loves talking to customers?
-        That's what I do. Drop me an email at da [at] simplerevolutions [dot] com.
+        <div class="home weebox">
+            <div class="home lessbig">Curious?</div>
+            <div class="home smaller">
+            You can <a href="/reset">reset n' randomize</a> to see the experimental variations.
+            Log into the <a href="/admin">admin</a> (user: cow, password: moo) to see the results.
+            If you have a website, are familiar with the <a href="https://www.djangoproject.com/">Django web framework</a>
+            (or would like to be) -- and you like winning -- Django Mini Lean may be the right solution for you.
+            Please see the <a href="https://github.com/DanAncona/django-mini-lean">github page</a> for more details.
+            <br/><br/>
+            Built by Dan Ancona. Looking for an entreprenurial and experienced full stack engineer who loves talking to customers?
+            That's what I do. Drop me an email at da [at] simplerevolutions [dot] com.
+            </div>
         </div>
-    </div>
 
 </div>
 
