@@ -1,7 +1,23 @@
 Welcome to Django Mini Lean!
 ============================
 
-World's absolute most minimal django based lean split testing framework.
+Summary
+-------
+World's absolute most minimal django based lean split testing (sometimes called A/B testing) framework. This is pretty nerdy stuff: Django is a web framework that people use to build custom websites. Django is easy and fun to learn and use, but you definitely need programming skills. If you've already got a site using a different framework or CMS, Django Mini Lean probably isn't so helpful for you. There's lots of other tools you could try first, Optimizely https://www.optimizely.com/ and new Google Analytics Content Experiments https://support.google.com/analytics/answer/1745152?hl=en.
+
+If you're curious about split testing in general, try this book: http://www.amazon.com/Testing-Most-Powerful-Clicks-Customers/dp/1118536096
+
+Try it Out
+----------
+
+There's an instance of Django Mini Lean running on heroku, here:
+
+http://django-mini-lean.herokuapp.com/
+
+When you come to the page, one experimental variant is served, and if you reload that variant stays put via a cookie. If you click to reset, the cookie that saves the variant is smashed and it serves you a new one. Variants can be anything; in this demo, we're varying the headline text, the subhead text and the picture of the cow, but it'd be easy to modify it to test any sorts of variations you'd like. Then when someone clicks on a share, a version of the page with a different variant is displayed for the new user.
+
+Background
+----------
 
 From 2010 to October 2012, I led a team that built a wonderful little application called Democracy Dashboard. Based on some early feedback around a voting slate grid tool that we built that our users really loved, we tried to turn it into a startup. However, as much as our users loved that part of the tool, they only loved it for four days every two years. We proceeded to build and test small versions of about a half dozen features over the next year and a half. All of these growth hypotheses failed to produce organic growth or paid growth at a price we thought was likely to be sustainable. The data the app was giving us was outstanding and we thought potentially extremely lucrative; sadly, we just couldn't get enough of it to make the unit economics work.
 
@@ -13,46 +29,43 @@ DemDash folded in October 2012. Probably permanently, although the $5B political
 
 One note: this is neither a python module nor a django package; it's more of a demo of a technique. This is deliberate, since it seems like everyone needs A/B testing to do something slightly different. But if anyone has ideas about how to better package it, I'd certainly be open to hearing them.
 
-
-
-
-
-
-Try it here:
-
-http://django-mini-lean.herokuapp.com/
-
-How it works:
-
-If a user is coming in to the raw URL, javascript on the page creates a randomized version.
-
+Future Plans
+------------
 
 What it needs:
-
-FB app secret/id into config vars
-
-get sharing loop working & documented
 
 tidy everything up
 
 *** launch ***
 
-Move tests out of the view and into the model
+[ ] Move tests out of the view and into a model
 
-Possibly, to be packaged up as a module
+[ ] Possibly, to be packaged up as a module
 
-Better reporting, including statistical significance analysis
+[ ] A nicer reporting page, showing the variants visually, would be lovely. I'd also like to get into including statistical significance analysis.
 
-Could add colors pretty easily
+[ ] Funnel analysis isn't hard to add, in fact the deployed version of this did that to track logins created from the different variants. To implement this, just create another method like fbshare in the view and add the counter to the Experiment. Or you could add a funnel code to that method.
 
-To run:
 
-Clone repo
-register an app https://developers.facebook.com/apps
-plug the FB secret and app ID into environment variables (make your life easier, put it in your virtual env bin/activate script)
-don't forge to add any test users as developers in the app, otherwise you will get a hopelessly generic error from FB when you try the sharing
+To Run Django Mini Lean Yourself
+--------------------------------
 
-set up the experiments dict
+Clone the repo
 
-go to /loadexperiment
+Set up and register a FB app via https://developers.facebook.com/apps
+
+Plug the FB app ID into an environment variables (make your life easier, put it in your virtual env bin/activate script)
+
+Don't forget to add any test users as developers in the app (otherwise you will get a hopelessly generic error from FB when you try the sharing)
+
+Next, edit the EXPERIMENTS dict in views.py - if you run the local server and load the root at this point, you will get this error:
+
+'''
+"DoesNotExist at /
+Experiment matching query does not exist."
+'''
+
+You're on the right path now. Just go to /loadexperiment and the experiment you set up in the EXPERIMENTS dict will be loaded into the Experiment model
+
+Then go back to / and you should have your own copy up and running!
 

@@ -3,15 +3,23 @@ from django.template import Context, loader, RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.conf import settings
 from django.utils import simplejson
+import itertools
 
 from random import choice, randrange
 
 from djangominilean.models import Experiment
 
-CURRENT_EXPERIMENT_CODE = 'test1'
+# Architecture note: as it is now, the experimental variants and generation of the random variant all
+# happen here in the view. Eventually this will probably move either to a view decorator or to a custom
+# template processor, but as this is primarily a demo of the technique, we're keeping it here now for
+# maximum clarity.
 
+CURRENT_EXPERIMENT = 'test1'
+
+# For the purposes of this demo, you can create the tests easily as a dict here. Note that the
+# initial label for each set of test variants should correspond to CURRENT_EXPERIMENT.
 # Make sure the titles, descriptions & images arrays have the same number of elements!
-# TODO: add checking for this. (and models/admin for it)
+# TODO: add checking for this.
 EXPERIMENTS = \
     {
         'test1':
@@ -19,7 +27,8 @@ EXPERIMENTS = \
             'titles':
             [
                 'Welcome to Django Mini Lean',
-                'Try Django Mini Lean'
+                'Try Django Mini Lean',
+                'Django Mini Lean Is So Metal'
             ],
             'descriptions': 
             [
@@ -34,41 +43,44 @@ EXPERIMENTS = \
         }
     }
 
-# the randomization happens in the template, so the share text matches but when a new page is created it's random
+# Build the variant data structure
+def build_variant(code):
+    variant = {}
+    for element in code.split('.'):
+        print element
+    return variant
+
+# This is the main page, with the code for creating the experimental variant, and a code to track that
+# that is dropped into a cookie.
 def home(request):
-    # if there's a testing code in the link, get it, drop it into the session and redirect
-    # so no one shares the link w/ get foo appended
-    code = None
-    try:
-        code = request.GET['code']
+    # If there's a testing code in the link, get it, drop it into the session and redirect
+    # so no one shares the link with the query string appended. The variant code returned
+    # is a string that looks like 0.1.0, where each integer corresponds to a component of the
+    # test.
+    code = request.GET.get('code', None)
+    if code:
         request.session['code'] = code
         print 'home: code in GET, redirecting'
         return HttpResponseRedirect('/')
-    except:
-        print 'home: no test code in session or GET'
-
     # If the code isn't in the query string, try the session...
-    if code is None:
-        try:
-            code = request.session['code']
-            print "friendtest: found code in session"
-        except:
-            print "friendstest: code not in session"
+    else:
+        code = request.session.get('code', None)
 
-    # if there's no testing code in the link or in the session,
-    # make up a new random code & save it in the session
-    exp = EXPERIMENTS[CURRENT_EXPERIMENT_CODE]
-    print code
+    # If there's no testing code in the link or in the session,
+    # make up a new random code & save it in the session. This
+    # should work generally for any given EXPERIMENTS dict.
+    # code should be like titles:0.descriptions:1.images:0
+    current_exp = EXPERIMENTS[CURRENT_EXPERIMENT]
     if code is None:
-        images = exp['images']
-        titles = exp['titles']
-        descriptions = exp['descriptions']
-        itext = randrange(0, len(titles))
-        iimage = randrange(0, len(images))
-        idesc = randrange(0, len(descriptions))
-        excode = CURRENT_EXPERIMENT_CODE
-        variant = str.join('.', [str(itext), str(iimage), str(idesc)])
-        code = excode + '-' + variant
+        variant_list = []
+        # go through each array and pick an index at random
+        for element in current_exp:
+            element_index = randrange(0, len(current_exp[element]))
+            variant_list.append(element + ':' + str(element_index))
+        
+        variant = str.join('.', variant_list)
+        print variant
+        code = CURRENT_EXPERIMENT + '-' + variant
         request.session['code'] = code
     else:
         [excode, variant] = code.split('-')
@@ -77,12 +89,12 @@ def home(request):
         iimage = int(variants[1])
         idesc = int(variants[2])
 
-    title = exp['titles'][itext]
-    description = exp['descriptions'][idesc]
-    img = exp['images'][iimage]
-    print title, description, img
+    variant = build_variant(code)
+#     title = current_exp['titles'][itext]
+#     description = current_exp['descriptions'][idesc]
+#     img = current_exp['images'][iimage]
     
-    exp = Experiment.objects.get(code=CURRENT_EXPERIMENT_CODE, variant=variant)
+    exp = Experiment.objects.get(code=CURRENT_EXPERIMENT, variant=variant)
     exp.pageviews += 1
     exp.save()
 
@@ -91,24 +103,46 @@ def home(request):
              'FB_APPID': settings.FB_APPID, 'FB_SECRET': settings.FB_SECRET},
             context_instance=RequestContext(request))
 
+# 
 def loadexperiment(request):
     status = None
-    code = 'test1'
-    exp = EXPERIMENTS[code]
+    current_exp = EXPERIMENTS[CURRENT_EXPERIMENT]
     # Don't create the experiment if it's already in the db.
-    existing_experiments = Experiment.objects.filter(code=code)
+    existing_experiments = Experiment.objects.filter(code=CURRENT_EXPERIMENT)
     if len(existing_experiments) > 0:
         status = "found experiment ", code, "- not created."
         return HttpResponse(status)
         
-    # If it's not found, create rows in Experiment for each variant.
-    numvariants = len(exp['titles'])
-    for i in range(0, numvariants):
-        for j in range(0, numvariants):
-        	for k in range(0, numvariants):
-	            variant = str.join('.', [str(i), str(j), str(k)])
-	            newexp = Experiment(code=code, variant=variant)
-	            newexp.save()
+    # If it's not found, create rows in Experiment for each possible variant.
+    # make an array list of all the options
+    # then combinations_with_replacement
+    all_variants = []
+    for element in current_exp:
+        variant_list = current_exp[element]
+        for variant in variant_list:
+            all_variants.append('%s:%i' % (element, variant_list.index(variant)))
+            
+    print all_variants
+        
+    x = [ 0, 1 ]
+    y = [ 0, 1, 2 ]
+    z = [ 0, 1]
+    m = [ x, y, z]
+    for t in itertools.product(*m):
+        print t
+    print [item for sublist in m for item in sublist]
+    
+#     num_elements = len(exp)
+# 
+#     for element in exp:
+# 
+#     
+#     for i in range(0, numvariants):
+#         for j in range(0, numvariants):
+#         	for k in range(0, numvariants):
+# 	            variant = str.join('.', [str(i), str(j), str(k)])
+# 	            newexp = Experiment(code=code, variant=variant)
+# 	            newexp.save()
     status = "experiment ", code, " loaded"
     
     # Then generate all the posts to FB
