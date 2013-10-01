@@ -56,12 +56,8 @@ Exact steps coming soon, but if you're pretty familiar with running django alrea
 
 4. Don't forget to add any test users as developers in the app. (otherwise you will get a hopelessly generic error from FB when you try the sharing)
 
-5. Edit the EXPERIMENTS dict in views.py. If you run the local server and load the root at this point, you will get this error:
-
-'''
-DoesNotExist at /
-Experiment matching query does not exist.
-'''
+5. Edit the EXPERIMENTS dict in views.py. If you run the local server and load the root at this point, you will get this error: "DoesNotExist at /
+Experiment matching query does not exist."
 
 6. You're on the right path now. Go to /loadexperiment and the experiment you set up in the EXPERIMENTS dict will be loaded into the Experiment model.
 
