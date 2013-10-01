@@ -18,5 +18,6 @@ class Experiment(models.Model):
 
 class ExperimentAdmin(admin.ModelAdmin):
     list_display = ['code', 'variant', 'pageviews', 'shares', 'pctshared']
+    readonly_fields = ['code', 'variant', 'pageviews', 'shares']
 
 admin.site.register(Experiment, ExperimentAdmin)

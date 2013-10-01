@@ -54,9 +54,7 @@ def build_variant(code):
     variants = variant_str.split('.')
     for element in variants:
         [var_label, var_index] = element.split(':')
-        print var_label, var_index
         variant[var_label] = EXPERIMENTS[CURRENT_EXPERIMENT][var_label][int(var_index)]
-    print variant
     return variant
 
 # This is the main page, with the code for creating the experimental variant, and a code to track that
@@ -91,10 +89,8 @@ def home(request):
     else:
         [exp_code, variant_code] = variant_code_with_exp.split('-')
         
-    print variant_code, variant_code_with_exp
     # Now we definitely have our variant code, so build out the dictionary to hand off to the template.
     variant_details = build_variant(variant_code_with_exp)
-    print variant_details
 
     # And increment the pageviews for this variant.
     exp = Experiment.objects.get(code=CURRENT_EXPERIMENT, variant=variant_code)
@@ -138,6 +134,7 @@ def loadexperiment(request):
 
     return HttpResponse(status)
 
+# The endpoint for catching the FB share callback.
 def fbshare(request, code):
     success = False
     [excode, variant] = code.split('-')
@@ -150,6 +147,7 @@ def fbshare(request, code):
     print "fbshare: survived, returning json " + str(json)
     return HttpResponse(json, mimetype='application/json')
 
+# Smash the cookie so we can see a new experimental variant.
 def reset(request):
     request.session['code'] = None
     return HttpResponseRedirect('/')
