@@ -90,13 +90,12 @@ def home(request):
     # If we can't find the variant the experiment has mostly likely changed, smash the cookie and try again.
     try:
         exp = Experiment.objects.get(code=CURRENT_EXPERIMENT, variant=variant_code)
+        # If found, increment the pageviews counter for this experiment.
+        exp.pageviews += 1
+        exp.save()
     except Experiment.DoesNotExist:
         print "home: Experiment not found"
         request.session['code'] = None
-
-    # And increment the pageviews counter for this experiment.
-    exp.pageviews += 1
-    exp.save()
 
     return render_to_response('home.html',
             {'variant_details': variant_details, 'code': variant_code_with_exp,
