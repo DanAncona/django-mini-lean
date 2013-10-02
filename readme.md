@@ -3,9 +3,9 @@ Welcome to Django Mini Lean!
 
 Summary
 -------
-Django Mini Lean is a farily minimal, [Django](https://www.djangoproject.com/) based lean split testing framework. (If you're not sure what this all means but you're intrigued by split testing, also known as A/B testing, this is pretty nerdy stuff: Django is a web framework that people use to build custom websites. Django is easy and fun to learn and use, but you definitely need programming skills. If you've already got a site using a different framework or CMS, Django Mini Lean probably isn't so helpful for you. There's lots of other tools you could try first, [Optimizely](https://www.optimizely.com/) and [Google Analytics Content Experiments](https://support.google.com/analytics/answer/1745152?hl=en). If you're curious about split testing in general, try this book: [A/B Testing: The Most Powerful Way to Turn Clicks Into Customers](http://www.amazon.com/Testing-Most-Powerful-Clicks-Customers/dp/1118536096).)
+Django Mini Lean is a farily minimal, [Django](https://www.djangoproject.com/) based lean split testing framework. (If you're not sure what this all means but you're intrigued by split testing, also known as A/B testing, this is pretty nerdy stuff: Django is a web framework that people use to build custom websites. Django is easy and fun to learn and use, but you definitely need programming skills. If you've already got a site using a different framework or CMS, Django Mini Lean probably isn't so helpful for you. There's lots of other tools you could try first, [Optimizely](https://www.optimizely.com/) and [Google Analytics Content Experiments](https://support.google.com/analytics/answer/1745152?hl=en). If you're curious about split testing in general, try this book: [A/B Testing: The Most Powerful Way to Turn Clicks Into Customers](http://www.amazon.com/Testing-Most-Powerful-Clicks-Customers/dp/1118536096). And above all, read the book that turned me onto this, Eric Ries' [The Lean Startup](http://theleanstartup.com/).)
 
-If you're into Django and you'd like an easy way to split testing, read on!
+If you're into Django and you'd like an easy way to split testing, read on and try it out. I hope you'll find this helpful!
 
 Try it Out
 ----------
@@ -14,7 +14,7 @@ There's an instance of Django Mini Lean running on heroku, here:
 
 http://django-mini-lean.herokuapp.com/
 
-When you come to the page, one experimental variant is served. If you click reload while on that page, the initial variant stays put via a cookie. If you click to reset, the cookie that saves the variant is smashed and it serves you a new, randomized variants. Variants can be anything; in this demo, we're varying the headline text, the subhead text, and the picture of the cow. It's easy to modify it to test any sorts of variations you'd like; there's a bit of cleverness in loadexperiment() method that automatically generates a matrix for tracking all the options. When someone clicks on a share, a version of the page with a different variant is displayed for the new user. It's possible to keep variants stable through shares as well. (although this is currently turned off)
+When you come to the page, one experimental variant is served. If you click reload while on that page, the initial variant stays put via a cookie. If you click to reset, the cookie that saves the variant is smashed and it serves you a new, randomized variants. Variants can be anything; in this demo, we're varying the headline text, the subhead text, and the picture of the cow. It's easy to modify it to test any sorts of variations you'd like; there's a bit of cleverness in loadexperiment() method that automatically generates a matrix for tracking all the options. When someone clicks on a share, a version of the page with a different variant is displayed for the new user. It's possible to keep variants stable through shares as well. (although this is currently turned off: I think it's most helpful for )
 
 Background
 ----------
@@ -50,7 +50,7 @@ Exact steps coming soon, but if you're pretty familiar with running django alrea
 
 1. Clone the repository.
 
-2. Set up and register a [Facebook App](https://developers.facebook.com/apps).
+2. Set up and register a [Facebook App](https://developers.facebook.com/apps). (or two, if you want to run one live somewhere and one for local development)
 
 3. Plug the FB app ID into an environment variable (make your life easier: put it in your virtual env bin/activate script).
 
