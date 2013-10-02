@@ -36,8 +36,8 @@ EXPERIMENTS = \
             ],
             'img': 
             [
-                'cow1.png',
-                'cow2.png'
+                'cow1-200.png',
+                'cow2-200.png'
             ]
         }
     }
