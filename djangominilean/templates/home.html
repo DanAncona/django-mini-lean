@@ -3,17 +3,16 @@
       xmlns:og="http://ogp.me/ns#"
       xmlns:fb="https://www.facebook.com/2008/fbml">
 <head>
-  <meta charset="utf-8" />
-  <title>django mini-lean</title>
-  <meta property="fb:app_id" content="{{FB_APPID}}" /> 
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+    <meta charset="utf-8" />
+    <title>{{variant_details.title}}</title>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-1.10.2.min.js"></script>
+    <meta property="fb:app_id" content="{{FB_APPID}}" /> 
+    <meta property="og:title" content="{{variant_details.title}}" />
+    <meta property="og:description" content="{{variant_details.description}}" />
+    <meta property="og:type" content="website" />
 </head>
 
 {% block headscript %}
-<meta property="og:title" content="{{variant_details.title}}" />
-<meta property="og:description" content="{{variant_details.description}}" />
-<meta property="og:type" content="website" />
-
 <script type="text/javascript">
 $.ajaxSetup({ 
      beforeSend: function(xhr, settings) {
